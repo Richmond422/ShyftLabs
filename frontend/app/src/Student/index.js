@@ -13,6 +13,7 @@ export const Student = () => {
         birthdate: ""
     })
     const [error, setError] = useState(null)
+    const [submitted, setSubmitted] = useState(false)
     
     useEffect(() => {
         const getStudents = async () => {
@@ -36,7 +37,7 @@ export const Student = () => {
             }
         })
         return () => mounted = false;
-    }, [])
+    }, [submitted])
 
     const handleInput = (event) => {
         const newValue = event.target.value;
@@ -87,6 +88,7 @@ export const Student = () => {
                     birthdate: ""
                 });
                 setError(null)
+                setSubmitted(!submitted)
             })
         }
     }
@@ -97,34 +99,30 @@ export const Student = () => {
         <Menu pageWrapId={'page-wrap'} outerContainerId={'page'} />
         <h1 id="title">Students</h1>
         <div id="formName">
-            <h2> Student First Name</h2>
+            <p> Student First Name</p>
+            <p> Student Family Name</p>
+            <p> Student Birth Date</p>
         </div>
-        <form id="form">
-            <label>
-                <input className='input'
-                    type="text"
-                    name="firstname"
-                    value={newStudentInfo.firstname}
-                    onChange={handleInput} 
-                />
-            </label>
-            <label>
-                <input className='input'
-                    type="text"
-                    name="familyname"
-                    value={newStudentInfo.familyname}
-                    onChange={handleInput} 
-                />
-            </label>
-            <label>
-                <input className='input'
-                    type="date"
-                    name="birthdate"
-                    value={newStudentInfo.birthdate}
-                    onChange={handleInput} 
-                />
-            </label>
-        </form>
+        <div id="form">
+            <input className='input'
+                type="text"
+                name="firstname"
+                value={newStudentInfo.firstname}
+                onChange={handleInput} 
+            />
+            <input className='input'
+                type="text"
+                name="familyname"
+                value={newStudentInfo.familyname}
+                onChange={handleInput} 
+            />
+            <input className='input'
+                type="date"
+                name="birthdate"
+                value={newStudentInfo.birthdate}
+                onChange={handleInput} 
+            />
+        </div>
         <button onClick={submitInput} id="button">Submit</button>
         <StudentTable id="table" students={students} />
         {error !== null &&
