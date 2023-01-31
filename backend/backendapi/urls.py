@@ -9,5 +9,7 @@ urlpatterns = [
     re_path('students', views.getStudents, name='students'),
     re_path('addStudent', views.addStudent, name='addStudent'),
     re_path('courses', views.getCourses, name='courses'),
-    re_path('addCourse', views.addCourse, name='addCourse')
+    re_path('addCourse', views.addCourse, name='addCourse'),
+    re_path('grades', views.getGrades, name='grades'),
+    re_path('addGrade', views.addGrades, name='addGrade'),
 ]

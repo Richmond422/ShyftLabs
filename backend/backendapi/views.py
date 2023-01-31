@@ -42,9 +42,46 @@ def addCourse(request):
     if "name" not in courseInfo.keys():
         return Response("", status=status.HTTP_400_BAD_REQUEST)
     
-    if Course.objects.filter(name=courseInfo["name"]):
+    if Course.objects.filter(name=courseInfo["name"]).exists():
         return Response("", status=status.HTTP_400_BAD_REQUEST)
     
     course = Course(name=courseInfo["name"])
     course.save()
     return Response("success", status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def getGrades(request):
+    allGrades = Grade.objects.all()
+    gradeDict = list(allGrades.values())
+    res = json.dumps(gradeDict, indent=4, sort_keys=True, default=str)
+    return Response(res, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def addGrades(request):
+    gradeInfo = dict(request.data)
+    if "course" not in gradeInfo.keys() or "name" not in gradeInfo.keys() or "score" not in gradeInfo.keys():
+        return Response("", status=status.HTTP_400_BAD_REQUEST)
+
+    course = gradeInfo["course"]
+    student = gradeInfo["name"]
+
+    if len(student.split()) != 2:
+        print("invalid student name")
+        return Response("", status=status.HTTP_400_BAD_REQUEST)
+    
+    firstName = student.split()[0]
+    familyName = student.split()[1]
+
+    if Course.objects.filter(name=course).exists() and Student.objects.filter(firstname=firstName, familyname=familyName).exists():
+        student = Student.objects.get(firstname=firstName, familyname=familyName)
+        course = Course.objects.get(name=course)
+        if Grade.objects.filter(studentid=student, courseid=course).exists():
+            return Response("grade exists for this course", status=status.HTTP_400_BAD_REQUEST)
+        
+        grade = Grade(studentid=student, courseid=course, score=gradeInfo["score"])
+        grade.save()
+
+        return Response("success", status=status.HTTP_200_OK)
+    return Response("invalid input", status=status.HTTP_400_BAD_REQUEST)
+
+
