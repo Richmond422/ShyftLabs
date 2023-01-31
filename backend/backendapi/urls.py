@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.urls import include, re_path
 from rest_framework import routers
 from . import views
 
@@ -6,6 +6,8 @@ from . import views
 # Additionally, we include login URLs for the browsable API.
 
 urlpatterns = [
-    url('students', views.getStudents, name='students'),
-    url('addStudent', views.addStudent, name='addStudent')
+    re_path('students', views.getStudents, name='students'),
+    re_path('addStudent', views.addStudent, name='addStudent'),
+    re_path('courses', views.getCourses, name='courses'),
+    re_path('addCourse', views.addCourse, name='addCourse')
 ]

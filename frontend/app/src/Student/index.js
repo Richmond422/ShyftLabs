@@ -25,14 +25,12 @@ export const Student = () => {
                 const curr = {"firstname":students[i].firstname, "familyname":students[i].familyname, "birthdate":students[i].birthdate}
                 allStudents.push(curr)
             }
-            console.log(allStudents)
             return allStudents
         }
         let mounted = true;
         getStudents()
         .then(data => {
             if (mounted) {
-                console.log(data)
                 setStudents(data)
             }
         })
@@ -41,7 +39,6 @@ export const Student = () => {
 
     const handleInput = (event) => {
         const newValue = event.target.value;
-        console.log(newValue)
         setNewStudentInfo({
             ...newStudentInfo,
             [event.target.name]: newValue
@@ -79,7 +76,6 @@ export const Student = () => {
         } else if (years < 10) {
             setError("Student must be atleast 10 years old!")
         } else {
-            console.log("add student")
             addStudent()
             .then(() => {
                 setNewStudentInfo({

@@ -32,7 +32,7 @@ grid-area: d;
 }
 
 .input {
-  width: 70%;
+  width: 90%;
   height: 34px;
   border-radius: 4px;
   position: relative;
@@ -51,11 +51,11 @@ grid-area: c;
 
 #button {
   grid-area: e;
-  width: 50%;
-  height: 60%;
-  align-content: center;
+  height: 50%;
+
+  display: flex;
+  justify-content: center;
   align-items: center;
-  align-self: center;
 }
 
 #error {

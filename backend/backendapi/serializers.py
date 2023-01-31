@@ -5,7 +5,7 @@ from .models import Grade, Course, Student
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Course
-        fields = ('name')
+        fields = ('name',)
 
 class GradeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
