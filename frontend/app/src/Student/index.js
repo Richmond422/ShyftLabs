@@ -68,13 +68,13 @@ export const Student = () => {
         const birthdate = moment(newStudentInfo.birthdate)
         const years = currentDate.diff(birthdate, 'years', 'true')
         if (newStudentInfo.firstname === "") {
-            setError("Student First Name Required")
+            setError("Error: Student First Name Required")
         } else if (newStudentInfo.familyname === "") {
-            setError("Student Family Name Required");
+            setError("Error: Student Family Name Required");
         } else if (newStudentInfo.birthdate === "") {
-            setError("Student birthdate required")
+            setError("Error: Student birthdate required")
         } else if (years < 10) {
-            setError("Student must be atleast 10 years old!")
+            setError("Error: Student must be atleast 10 years old!")
         } else {
             addStudent()
             .then(() => {
@@ -83,7 +83,7 @@ export const Student = () => {
                     familyname: "",
                     birthdate: ""
                 });
-                setError(null)
+                setError("Success, Student added")
                 setSubmitted(!submitted)
             })
         }
@@ -122,8 +122,8 @@ export const Student = () => {
         <button onClick={submitInput} id="button">Submit</button>
         <StudentTable id="table" students={students} />
         {error !== null &&
-            <h3 id='error' style={{color:'red'}}>
-                Error: {error}
+            <h3 id='error'>
+                {error}
             </h3>
         }
       </section>
