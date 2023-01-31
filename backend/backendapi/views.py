@@ -12,7 +12,7 @@ import json
 def getStudents(request):
     allStudents = Student.objects.all()
     seriazlied_students = StudentSerializer(allStudents, many=True, default=True)
-    res = json.dumps(seriazlied_students.data, indent=4, sort_keys=True, default=str)
+    res = json.dumps(seriazlied_students.data, sort_keys=True, default=str)
     return Response(res, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
@@ -33,7 +33,7 @@ def addStudent(request):
 def getCourses(request):
     allCourses = Course.objects.all()
     serialized_courses = CourseSerializer(allCourses, many=True, default=True)
-    res = json.dumps(serialized_courses.data, indent=4, sort_keys=True, default=str)
+    res = json.dumps(serialized_courses.data, sort_keys=True, default=str)
     return Response(res, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
@@ -53,18 +53,27 @@ def addCourse(request):
 def getGrades(request):
     allGrades = Grade.objects.all()
     gradeDict = list(allGrades.values())
-    res = json.dumps(gradeDict, indent=4, sort_keys=True, default=str)
+    res = []
+    for grade in gradeDict:
+        student = Student.objects.get(id=grade["studentid_id"])
+        course = Course.objects.get(id=grade["courseid_id"])
+        res.append({
+            "student": student.firstname + " " + student.familyname,
+            "course": course.name,
+            "score": grade["score"]
+        })
+    
     return Response(res, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def addGrades(request):
     gradeInfo = dict(request.data)
-    if "course" not in gradeInfo.keys() or "name" not in gradeInfo.keys() or "score" not in gradeInfo.keys():
+    if "course" not in gradeInfo.keys() or "student" not in gradeInfo.keys() or "score" not in gradeInfo.keys():
         return Response("", status=status.HTTP_400_BAD_REQUEST)
 
     course = gradeInfo["course"]
-    student = gradeInfo["name"]
-
+    student = gradeInfo["student"]
+    print(student.split())
     if len(student.split()) != 2:
         print("invalid student name")
         return Response("", status=status.HTTP_400_BAD_REQUEST)

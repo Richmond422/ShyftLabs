@@ -4,6 +4,7 @@ import './index.css';
 import {Home} from './Home'
 import {Student} from './Student'
 import {Course} from './Course';
+import {Grade} from './Grade'
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/" element={<Home />}/>
         <Route path="/students" element={<Student />} />
         <Route path="/courses" element={<Course/>} />
+        <Route path="/grades" element={<Grade />} />
       </Routes>
     </BrowserRouter>
   );
